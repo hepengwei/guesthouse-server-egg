@@ -48,12 +48,6 @@ class CommentController extends BaseController {
     };
     const params = ctx.getParams();
     if (!request.validateParams(rule, params)) return;
-    const userName = ctx.userName;
-    const user = await service.user.getUser(userName);
-    if (!user) {
-      this.error('用户不存在');
-      return;
-    }
     const order = await service.orders.getOrder({
       guesthouseId: params.guesthouseId,
     });
@@ -62,7 +56,7 @@ class CommentController extends BaseController {
       return;
     }
     const res = await service.orders.create({
-      userId: user.userId,
+      userId: ctx.userId,
       guesthouseId: params.guesthouseId,
       isPayed: 0,
     });
@@ -81,15 +75,9 @@ class CommentController extends BaseController {
     };
     const params = ctx.getParams();
     if (!request.validateParams(rule, params)) return;
-    const userName = ctx.userName;
-    const user = await service.user.getUser(userName);
-    if (!user) {
-      this.error('用户不存在');
-      return;
-    }
     const order = await service.orders.getOrder({
       guesthouseId: params.guesthouseId,
-      userId: user.dataValues.userId,
+      userId: ctx.userId,
     });
     if (!order) {
       this.error('订单不存在');
@@ -115,15 +103,9 @@ class CommentController extends BaseController {
     };
     const params = ctx.getParams();
     if (!request.validateParams(rule, params)) return;
-    const userName = ctx.userName;
-    const user = await service.user.getUser(userName);
-    if (!user) {
-      this.error('用户不存在');
-      return;
-    }
     const res = await service.orders.getOrders({
       ...params,
-      userId: user.dataValues.userId,
+      userId: ctx.userId,
     });
     if (res) {
       this.success({
@@ -143,15 +125,9 @@ class CommentController extends BaseController {
     };
     const params = ctx.getParams();
     if (!request.validateParams(rule, params)) return;
-    const userName = ctx.userName;
-    const user = await service.user.getUser(userName);
-    if (!user) {
-      this.error('用户不存在');
-      return;
-    }
     const order = await service.orders.getOrder({
       id: params.orderId,
-      userId: user.dataValues.userId,
+      userId: ctx.userId,
     });
     if (!order) {
       this.error('订单不存在');

@@ -22,11 +22,11 @@ class UserService extends BaseService {
     });
   }
 
-  async updateUser(userName, params) {
+  async updateUser(userId, params) {
     return this.tryRun(async (ctx) => {
       const res = await ctx.model.User.update(params, {
         where: {
-          userName,
+          userId,
         },
       });
       return res;

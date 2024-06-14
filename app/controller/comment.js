@@ -13,14 +13,8 @@ class CommentController extends BaseController {
     };
     const params = ctx.getParams();
     if (!request.validateParams(rule, params)) return;
-    const userName = ctx.userName;
-    const user = await service.user.getUser(userName);
-    if (!user) {
-      this.error('用户不存在');
-      return;
-    }
     const res = await service.comment.create({
-      userId: user.userId,
+      userId: ctx.userId,
       guesthouseId: params.guesthouseId,
       msg: params.msg,
     });

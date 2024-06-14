@@ -26,16 +26,4 @@ module.exports = {
     }
     return '';
   },
-
-  get userId() {
-    const { header } = this.request;
-    if (header?.authorization) {
-      const tokenCache = this.app.jwt.verify(
-        header.authorization,
-        this.app.config.jwt.secret
-      );
-      return tokenCache?.userId || 0;
-    }
-    return '';
-  },
 };
